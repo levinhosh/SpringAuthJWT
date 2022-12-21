@@ -66,10 +66,14 @@ public class AuthController {
         .collect(Collectors.toList());
 
     return ResponseEntity.ok(new JwtResponse(jwt, 
-                         userDetails.getId(), 
-                         userDetails.getUsername(), 
-                         userDetails.getEmail(), 
-                         roles));
+            userDetails.getId(),
+            userDetails.getUsername(),
+            userDetails.getEmail(),
+            userDetails.getFirstName(),
+            userDetails.getSecondName(),
+            userDetails.getLastName(),
+            userDetails.getDesignation(),
+            roles));
   }
 
   @PostMapping("/signup")
@@ -89,7 +93,8 @@ public class AuthController {
     // Create new user's account
     User user = new User(signUpRequest.getUsername(), 
                signUpRequest.getEmail(),
-               encoder.encode(signUpRequest.getPassword()));
+               encoder.encode(signUpRequest.getPassword()), signUpRequest.getFirstName(),
+            signUpRequest.getSecondName(), signUpRequest.getLastName(), signUpRequest.getDesignation());
 
     Set<String> strRoles = signUpRequest.getRole();
     Set<Role> roles = new HashSet<>();

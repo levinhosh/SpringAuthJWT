@@ -1,10 +1,12 @@
 package com.bezkoder.springjwt.security.services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import com.bezkoder.springjwt.DailyReports.DailyReports;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,14 +26,29 @@ public class UserDetailsImpl implements UserDetails {
   @JsonIgnore
   private String password;
 
+  private String firstName;
+
+  private String secondName;
+
+  private String lastName;
+
+  private String designation;
+
+  //private List<DailyReports> dailyReports = new ArrayList<>();
+
   private Collection<? extends GrantedAuthority> authorities;
 
   public UserDetailsImpl(Long id, String username, String email, String password,
+                         String firstName, String secondName, String lastName, String designation,
       Collection<? extends GrantedAuthority> authorities) {
     this.id = id;
     this.username = username;
     this.email = email;
     this.password = password;
+    this.firstName = firstName;
+    this.secondName = secondName;
+    this.lastName = lastName;
+    this.designation = designation;
     this.authorities = authorities;
   }
 
@@ -41,11 +58,15 @@ public class UserDetailsImpl implements UserDetails {
         .collect(Collectors.toList());
 
     return new UserDetailsImpl(
-        user.getId(), 
-        user.getUsername(), 
-        user.getEmail(),
-        user.getPassword(), 
-        authorities);
+            user.getId(),
+            user.getUsername(),
+            user.getEmail(),
+            user.getPassword(),
+            user.getFirstName(),
+            user.getSecondName(),
+            user.getLastName(),
+            user.getDesignation(),
+            authorities);
   }
 
   @Override
@@ -100,4 +121,44 @@ public class UserDetailsImpl implements UserDetails {
     UserDetailsImpl user = (UserDetailsImpl) o;
     return Objects.equals(id, user.id);
   }
+
+  public String getFirstName() {
+    return firstName;
+  }
+
+  public void setFirstName(String firstName) {
+    this.firstName = firstName;
+  }
+
+  public String getSecondName() {
+    return secondName;
+  }
+
+  public void setSecondName(String secondName) {
+    this.secondName = secondName;
+  }
+
+  public String getLastName() {
+    return lastName;
+  }
+
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
+  }
+
+  public String getDesignation() {
+    return designation;
+  }
+
+  public void setDesignation(String designation) {
+    this.designation = designation;
+  }
+
+//  public List<DailyReports> getDailyReports() {
+//    return dailyReports;
+//  }
+//
+//  public void setDailyReports(List<DailyReports> dailyReports) {
+//    this.dailyReports = dailyReports;
+//  }
 }

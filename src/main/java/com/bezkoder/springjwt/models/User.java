@@ -1,6 +1,12 @@
 package com.bezkoder.springjwt.models;
 
+//import com.bezkoder.springjwt.DailyReports.DailyReports;
+
+import com.bezkoder.springjwt.DailyReports.DailyReports;
+
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -32,19 +38,46 @@ public class User {
   @Size(max = 120)
   private String password;
 
+  @NotBlank
+  @Size(max = 20)
+  private String firstName;
+
+  @NotBlank
+  @Size(max = 20)
+  private String secondName;
+
+  @NotBlank
+  @Size(max = 20)
+  private String lastName;
+
+  @NotBlank
+  @Size(max = 20)
+  private String designation;
+
+
+  //private Boolean locked = false;
+  //private Boolean enabled = false;
+
   @ManyToMany(fetch = FetchType.LAZY)
   @JoinTable(  name = "user_roles", 
         joinColumns = @JoinColumn(name = "user_id"), 
         inverseJoinColumns = @JoinColumn(name = "role_id"))
   private Set<Role> roles = new HashSet<>();
 
+  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
+  private List<DailyReports> dailyReports = new ArrayList<>();
+
   public User() {
   }
 
-  public User(String username, String email, String password) {
+  public User(String username, String email, String password, String firstName, String secondName, String lastName, String designation) {
     this.username = username;
     this.email = email;
     this.password = password;
+    this.firstName = firstName;
+    this.secondName = secondName;
+    this.lastName = lastName;
+    this.designation = designation;
   }
 
   public Long getId() {
@@ -86,4 +119,38 @@ public class User {
   public void setRoles(Set<Role> roles) {
     this.roles = roles;
   }
+
+  public String getFirstName() {
+    return firstName;
+  }
+
+  public void setFirstName(String firstName) {
+    this.firstName = firstName;
+  }
+
+  public String getSecondName() {
+    return secondName;
+  }
+
+  public void setSecondName(String secondName) {
+    this.secondName = secondName;
+  }
+
+  public String getLastName() {
+    return lastName;
+  }
+
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
+  }
+
+  public String getDesignation() {
+    return designation;
+  }
+
+  public void setDesignation(String designation) {
+    this.designation = designation;
+  }
+
+
 }
