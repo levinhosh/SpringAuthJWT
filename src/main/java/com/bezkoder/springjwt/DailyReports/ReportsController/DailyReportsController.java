@@ -70,11 +70,11 @@ public class DailyReportsController {
     }
 
     @PostMapping(value="/create/{appUser}")
-    public DailyReports createReport(@RequestBody NewReportRequest newReportRequest, @PathVariable Long appUser) {
+    public DailyReports createReport(@RequestBody DailyReports dailyReports, @PathVariable Long appUser) {
         try {
-//            dailyReportsService.createReport(newReportRequest,appUser);
-//            return dailyReportsService.createReport(newReportRequest, appUser);
-            return null;
+            dailyReportsService.createReport(dailyReports,appUser);
+            return dailyReportsService.createReport(dailyReports, appUser);
+
         }catch (Exception e){
             log.info("Error{} "+e);
             return null;
