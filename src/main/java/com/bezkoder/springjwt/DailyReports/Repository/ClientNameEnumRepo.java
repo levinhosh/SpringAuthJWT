@@ -5,11 +5,13 @@ import com.bezkoder.springjwt.DailyReports.Enums.ClientNameEnums;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 
+import java.util.List;
 import java.util.Optional;
 
-public interface ClientNameEnumRepo  extends JpaRepository<ClientNameEnums, Integer> {
+public interface ClientNameEnumRepo  extends JpaRepository<ClientNameEnums, Long> {
 
-    Optional<ClientNameEnums> findByClientName(ClientNameEnum clientName);
+
+
 }
 
 

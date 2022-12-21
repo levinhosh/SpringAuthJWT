@@ -3,6 +3,9 @@ package com.bezkoder.springjwt.models;
 //import com.bezkoder.springjwt.DailyReports.DailyReports;
 
 import com.bezkoder.springjwt.DailyReports.DailyReports;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -63,6 +66,10 @@ public class User {
         joinColumns = @JoinColumn(name = "user_id"), 
         inverseJoinColumns = @JoinColumn(name = "role_id"))
   private Set<Role> roles = new HashSet<>();
+
+
+  @Getter
+  @Setter
 
   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
   private List<DailyReports> dailyReports = new ArrayList<>();
