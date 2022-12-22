@@ -1,6 +1,5 @@
 package com.bezkoder.springjwt.DailyReports.DailyReportServices;
 
-import com.bezkoder.springjwt.DailyReports.Enums.ClientNameEnum;
 import com.bezkoder.springjwt.DailyReports.Enums.ClientNameEnums;
 import com.bezkoder.springjwt.DailyReports.Repository.ClientNameEnumRepo;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +17,7 @@ public class ClientService {
     @Autowired
     private ClientNameEnumRepo clientNameEnumRepo;
 
-    private ClientNameEnum clientNameEnum;
+
 
     public List<ClientNameEnums> getAllClients(){
 

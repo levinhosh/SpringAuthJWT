@@ -1,9 +1,5 @@
 package com.bezkoder.springjwt.DailyReports;
 
-import com.bezkoder.springjwt.DailyReports.Enums.ClientNameEnums;
-import com.bezkoder.springjwt.DailyReports.Enums.DepartmentEnum;
-import com.bezkoder.springjwt.DailyReports.Enums.ProductNameEnum;
-import com.bezkoder.springjwt.DailyReports.Enums.ReportCategory;
 import com.bezkoder.springjwt.models.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;

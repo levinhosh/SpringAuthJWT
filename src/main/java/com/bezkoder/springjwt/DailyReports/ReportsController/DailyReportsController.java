@@ -49,8 +49,7 @@ public class DailyReportsController {
     @Autowired
     private ClientService clientService;
 
-    @Autowired
-    private NewReportRequest newReportRequest;
+
     @Autowired
     private DepartmentNameService departmentNameService;
 
@@ -62,7 +61,7 @@ public class DailyReportsController {
 
 
 
-    @GetMapping(path = "/all") //Read all
+    @GetMapping(path = "/allreports") //Read all
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public List<DailyReports> allReports()
     {
