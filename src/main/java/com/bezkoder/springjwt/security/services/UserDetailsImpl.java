@@ -7,6 +7,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import com.bezkoder.springjwt.DailyReports.DailyReports;
+import com.bezkoder.springjwt.DailyReports.SecondDailyReport;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -34,7 +35,7 @@ public class UserDetailsImpl implements UserDetails {
 
   private String designation;
 
-  //private List<DailyReports> dailyReports = new ArrayList<>();
+  private List<SecondDailyReport> dailyReports = new ArrayList<>();
 
   private Collection<? extends GrantedAuthority> authorities;
 

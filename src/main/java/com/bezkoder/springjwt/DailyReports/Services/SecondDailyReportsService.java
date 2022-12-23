@@ -1,12 +1,15 @@
 package com.bezkoder.springjwt.DailyReports.Services;
 
 
-import com.bezkoder.springjwt.DailyReports.DailyReports;
 import com.bezkoder.springjwt.DailyReports.Repository.*;
+import com.bezkoder.springjwt.DailyReports.SecondDailyReport;
 import com.bezkoder.springjwt.models.User;
+import com.bezkoder.springjwt.payload.response.MessageResponse;
 import com.bezkoder.springjwt.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,7 +20,7 @@ import java.util.Optional;
 
 @Service
 @Slf4j
-public class DailyReportsService {
+public class SecondDailyReportsService {
 
     @Autowired
     ClientNameEnumRepo clientNameEnumRepo;
@@ -32,21 +35,20 @@ public class DailyReportsService {
      AuthenticationManager authenticationManager;
 
     @Autowired
-        private DailyReportsRepo dailyReportsRepo;
+        SecondDailyReportRepo dailyReportsRepo;
         @Autowired
-        private UserRepository userRepository;
+        UserRepository userRepository;
 
-        private Optional<DailyReports> dailyReports;
-
+        Optional<SecondDailyReportRepo> dailyReports;
 
         ////////////////////// LIST ALL REPORTS ///////////////////
-        public List<DailyReports> getAllReports(){
-        return (List<DailyReports>) dailyReportsRepo.findAll();
+        public List<SecondDailyReport> getAllReports(){
+        return dailyReportsRepo.findAll();
     }
 
 
     ////////////////////// LIST SPECIFIC USER ALL REPORTS ///////////////////
-    public List<DailyReports> readReport(Long userId) {
+    public List<SecondDailyReport> readReport(Long userId) {
 
         try {
 
@@ -56,9 +58,9 @@ public class DailyReportsService {
 
             if (appUser.isPresent()) {
 
-                List<DailyReports> dailyReports = dailyReportsRepo.findByUniqueConstraint(userId);
+                List<SecondDailyReport> dailyReports = dailyReportsRepo.findByUniqueConstraint(userId);
 
-                return (dailyReportsRepo.findByUniqueConstraint(userId));
+                return dailyReports;
 
 
             }
@@ -72,29 +74,28 @@ public class DailyReportsService {
     }
 
 /////////////////////////// CREATION OF REPORT ///////////////////////////
-    public DailyReports createReport(DailyReports dailyReports, Long user){
+    public ResponseEntity<SecondDailyReport> createReport(Long user, SecondDailyReport dailyReports){
         try{
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-            System.out.println(auth);
-
-
-
-
+            //System.out.println(auth);
 
             Optional<User> appUser= userRepository.findById(user);
            if(appUser.isPresent()){
 //                User existingAppUser= appUser.get();
-//                dailyReports.setUser(existingAppUser);
-               DailyReports savedDailyReports=dailyReportsRepo.save(dailyReports);
-               return savedDailyReports;
+
+                User existingAppUser= appUser.get();
+                dailyReports.setUser(existingAppUser);
+
+               SecondDailyReport savedDailyReports=dailyReportsRepo.save(dailyReports);
+               return ResponseEntity.ok(savedDailyReports);
            }else {
-              return null;
-           }
+              return (ResponseEntity<SecondDailyReport>) ResponseEntity.status(HttpStatus.valueOf("Not saved"));
+         }
 
         }catch (Exception e){
-            log.info("Error{} "+e);
-            return null;
+            return (ResponseEntity<SecondDailyReport>) ResponseEntity.status(HttpStatus.valueOf("Not saved"));
+
         }
 
 
@@ -104,19 +105,17 @@ public class DailyReportsService {
     //////////////////////////// UPDATE REPORT /////////////////////////////////////
 
 
-    public DailyReports updateUserReport(Long id, DailyReports dr) {
-         DailyReports dailyReports = dailyReportsRepo.findById(id).orElseThrow(() ->
+    public SecondDailyReport updateUserReport(Long id, SecondDailyReport dr) {
+         SecondDailyReport dailyReports = dailyReportsRepo.findById(id).orElseThrow(() ->
                 new IllegalStateException("No such record in your Report Diary"));
 
-
-//            dailyReports.setReport_description(dr.getReport_description());
-//            dailyReports.setRept_FK(dr.getRept_FK());
-//            dailyReports.setPrdt_FK(dr.getPrdt_FK());
-//            dailyReports.setTicketId(dr.getTicketId());
-//            //dailyReports.setClient_FK(dr.getClient_FK());
-//            dailyReports.setTimeTaken(dr.getTimeTaken());
-//            dailyReports.setDept_FK(dr.getDept_FK());
-
+            dailyReports.setReport_description(dr.getReport_description());
+            dailyReports.setRept_FK(dr.getRept_FK());
+            dailyReports.setPrdt_FK(dr.getPrdt_FK());
+            dailyReports.setTicketId(dr.getTicketId());
+            dailyReports.setClient_FK(dr.getClient_FK());
+            dailyReports.setTimeTaken(dr.getTimeTaken());
+            dailyReports.setDept_FK(dr.getDept_FK());
 
             return dailyReportsRepo.save(dailyReports);
     }
@@ -131,6 +130,4 @@ public class DailyReportsService {
                 log.info("Error {}"+e);
             }
 	}
-
-
 }

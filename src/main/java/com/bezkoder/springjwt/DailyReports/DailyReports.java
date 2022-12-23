@@ -15,23 +15,12 @@ import java.sql.Date;
 @Table(name="daily_reports")
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
-@ToString
 public class DailyReports {
 
 
-    @SequenceGenerator(
-            name = "daily_report_sequence",
-            sequenceName = "daily_report_sequence",
-            allocationSize = 1
-    )
+
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "daily_report_sequence"
-    )
-
-
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "daily_report_id")
     private Long id;
 
@@ -39,38 +28,38 @@ public class DailyReports {
     @Column(name = "created_at", nullable = false, updatable = false, columnDefinition = "DATE DEFAULT CURRENT_DATE")
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     private Date creationDate;
-
-
-
-
-    @Column(name = "ticketId", nullable = true)
-    private String ticketId;
-
-
-
-
-    @Column(name = "timeTaken", nullable = false)
-    private String timeTaken;
-
-    @Column(name = "DepartmentName", nullable = false)
-    private Long Dept_FK;
-
-    @Column(name = "ClientName", nullable = false)
-    private Long Client_FK;
-
-    @Column(name = "ProductName", nullable = false)
-    private Long Prdt_FK;
-
-    @Column(name = "ReportCategory", nullable = false)
-    private Long Rept_FK;
-
-
-
-    @Column(name = "description", updatable = true, nullable = false)
-    private String report_description;
-
-
-
+//
+//
+//
+//
+//    @Column(name = "ticketId", nullable = true)
+//    private String ticketId;
+//
+//
+//
+//
+//    @Column(name = "timeTaken", nullable = false)
+//    private String timeTaken;
+//
+//    @Column(name = "DepartmentName", nullable = false)
+//    private Long Dept_FK;
+//
+////    @Column(name = "ClientName", nullable = false)
+////    private Long Client_FK;
+//
+//    @Column(name = "ProductName", nullable = false)
+//    private Long Prdt_FK;
+//
+//    @Column(name = "ReportCategory", nullable = false)
+//    private Long Rept_FK;
+//
+//
+//
+//    @Column(name = "description", updatable = true, nullable = false)
+//    private String report_description;
+//
+//
+//
     @ManyToOne
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @JoinColumn(

@@ -3,6 +3,7 @@ package com.bezkoder.springjwt.models;
 //import com.bezkoder.springjwt.DailyReports.DailyReports;
 
 import com.bezkoder.springjwt.DailyReports.DailyReports;
+import com.bezkoder.springjwt.DailyReports.SecondDailyReport;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -69,15 +70,7 @@ public class User {
 
 
   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
-//  @JoinColumn(
-//            nullable = false,
-//            name = "daily_report_id"
-//    )
-
-//  @JoinTable(  name = "daily_reports",
-//        joinColumns = @JoinColumn(name = "user_id"),
-//        inverseJoinColumns = @JoinColumn(name = "daily_report_id"))
-  private List<DailyReports> dailyReports = new ArrayList<>();
+  private List<SecondDailyReport> dailyReports = new ArrayList<>();
 
   public User() {
   }

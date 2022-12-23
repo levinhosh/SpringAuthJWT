@@ -5,7 +5,6 @@ import com.bezkoder.springjwt.DailyReports.DailyReportServices.ClientService;
 import com.bezkoder.springjwt.DailyReports.DailyReportServices.DepartmentNameService;
 import com.bezkoder.springjwt.DailyReports.DailyReportServices.ProductNameService;
 import com.bezkoder.springjwt.DailyReports.DailyReportServices.ReportCategoryService;
-import com.bezkoder.springjwt.DailyReports.DailyReports;
 import com.bezkoder.springjwt.DailyReports.Enums.ClientNameEnums;
 import com.bezkoder.springjwt.DailyReports.Enums.DepartmentEnums;
 import com.bezkoder.springjwt.DailyReports.Enums.ProductNameEnums;
@@ -14,11 +13,12 @@ import com.bezkoder.springjwt.DailyReports.Repository.ClientNameEnumRepo;
 import com.bezkoder.springjwt.DailyReports.Repository.DepartmentEnumRepo;
 import com.bezkoder.springjwt.DailyReports.Repository.ProductNameEnumRepo;
 import com.bezkoder.springjwt.DailyReports.Repository.ReportCategoryRepo;
-import com.bezkoder.springjwt.DailyReports.Request.NewReportRequest;
-import com.bezkoder.springjwt.DailyReports.Services.DailyReportsService;
+import com.bezkoder.springjwt.DailyReports.SecondDailyReport;
+import com.bezkoder.springjwt.DailyReports.Services.SecondDailyReportsService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,7 +44,7 @@ public class DailyReportsController {
     ReportCategoryRepo reportCategoryRepo;
 
     @Autowired
-    private DailyReportsService dailyReportsService;
+    private SecondDailyReportsService dailyReportsService;
 
     @Autowired
     private ClientService clientService;
@@ -61,23 +61,43 @@ public class DailyReportsController {
 
 
 
+    ////////////// VIEW ALL REPORTS /////////////////////////////////////
     @GetMapping(path = "/allreports") //Read all
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    public List<DailyReports> allReports()
+    public List<SecondDailyReport> allReports()
     {
         return dailyReportsService.getAllReports();
     }
 
+
+    ///////////////////////  CREATE REPORT /////////////////////////////
     @PostMapping(value="/create/{appUser}")
-    public DailyReports createReport(@RequestBody DailyReports dailyReports, @PathVariable Long appUser) {
+    public ResponseEntity<SecondDailyReport> createReport(@RequestBody SecondDailyReport dailyReports, @PathVariable Long appUser) {
         try {
-            dailyReportsService.createReport(dailyReports,appUser);
-            return dailyReportsService.createReport(dailyReports, appUser);
+            return dailyReportsService.createReport(appUser, dailyReports);
 
         }catch (Exception e){
             log.info("Error{} "+e);
             return null;
         }
+    }
+
+    ////////////////////// UPDATE REPORT //////////////
+
+    @RequestMapping(value="/updateReport/{id}", method = RequestMethod.PUT)  // Update by id
+    public SecondDailyReport updateDailyReports(@PathVariable Long id, @RequestBody SecondDailyReport dailyReports) {
+
+        return (dailyReportsService.updateUserReport(id,dailyReports));
+
+    }
+
+    /////////////////  SINGLE USER REPORT /////////////
+
+    @GetMapping(value = "/report/{id}") //Read by single user records
+    public @ResponseBody Optional<List<SecondDailyReport>> getUserByReport(@PathVariable Long id) {
+        List<SecondDailyReport> dailyReports = dailyReportsService.readReport(id);
+        return Optional.ofNullable(dailyReports);
+
     }
 
     //////////////  CLIENT NAME   ////////////

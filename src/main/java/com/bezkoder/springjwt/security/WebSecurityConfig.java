@@ -87,9 +87,10 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
     http.cors().and().csrf().disable()
         .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-        .authorizeRequests().antMatchers("/api/auth/**").permitAll()
-        .antMatchers("/api/test/**").permitAll()
-            .antMatchers("/api/reports/**").permitAll()
+        .authorizeRequests()
+            //.antMatchers("/api/auth/**").permitAll()
+        //.antMatchers("/api/test/**").permitAll()
+           // .antMatchers("/api/reports/**").permitAll()
         .anyRequest().authenticated();
     
     http.authenticationProvider(authenticationProvider());
@@ -102,7 +103,7 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
 
   @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().antMatchers("/images/**", "/js/**", "/webjars/**","/swagger-ui/**",
+        return (web) -> web.ignoring().antMatchers("/api/test/**","/api/auth/**","/api/reports/**","/images/**", "/js/**", "/webjars/**","/swagger-ui/**",
                 "/v2/api-docs","/v1/api-docs","/v3/api-docs", "/configuration/ui","/swagger-resources/**","/configuration/security","/swagger-ui.html");
     }
 
